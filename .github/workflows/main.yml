@@ -1,0 +1,36 @@
+name: GitHub Pages
+
+on: [push]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Prepare and deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+        run: |
+          npm i -g npm
+          npm i -g @angular/cli typescript angular-cli-ghpages
+          ng add --skip-confirmation angular-cli-ghpages
+          npm ci
+          MSG="$(git show -s --format='%s' "$GITHUB_SHA")"
+          email_author="$(git log -1 --pretty=format:'%an <%ce>')"
+          author="${email_author% *}"
+          git config --global user.name "$author"
+          email="${email_author#*<}"; email="${email::-1}"
+          git config --global user.email "$email"
+          cname='verman.io'
+          ng build --configuration production --base-href 'https://'"$cname"
+          head -n3 README.md > 'dist/verman-www/README.md'
+          npx angular-cli-ghpages --dir='dist/verman-www' --cname="$cname" --repo='https://'"$GITHUB_TOKEN"'@github.com/verman-io/verman.github.io' --branch='master' --message="$MSG" --name="$name" --email="$email" --no-silent
