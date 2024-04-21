@@ -1,4 +1,26 @@
-.multicol {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+$sm: 640px;
+$md: 768px;
+$lg: 1024px;
+$xl: 1280px;
+$xxl: 1536px;
+
+@media screen and (min-width: $sm) {
+  .multicol {
+    display: block;
+    grid-template-columns: none;
+  }
+}
+
+@media screen and (min-width: $md) {
+  .multicol {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (min-width: $lg) {
+  .multicol {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
