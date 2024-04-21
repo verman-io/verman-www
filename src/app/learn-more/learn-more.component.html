@@ -47,13 +47,98 @@
 
       <div class="feature">
         <div class="feature-title">Depend on multiple version managers</div>
-        <p class="text-body">E.g., for combining [verMan] database, application-server, reverse-proxy, and your application into one [new] package manager.</p>
+        <p class="text-body">E.g., for combining [verMan] database, application-server, reverse-proxy, and your
+          application into one [new] package manager.</p>
       </div>
 
       <div class="feature">
         <div class="feature-title">Configuration</div>
         <p class="text-body">Global, project-global, and local configurations.</p>
         <p class="text-body">Stores everything from directory paths to database authentication details.</p>
+      </div>
+    </div>
+    <hr>
+  </div>
+
+  <div class="feature-section">
+    <div class="feature-header">
+      <div class="text-headline">Use-cases</div>
+    </div>
+    <div class="feature">
+      <div class="feature-title">Image creation</div>
+      <p class="text-body">Rather than custom scripts for each target, or a non-standard format like the [now]
+        closed-source <a href="https://packer.io" target="_blank">HashiCorp Packer</a>; instead you can use your
+        vendor-specific format and just add ~3 lines (download, extract, execute). Now instead of a
+        <code>Dockerfile</code> limited to Docker; you can now trivially target:</p>
+      <ul class="multicol">
+        <li><a href="https://docker.com" target="_blank">Docker</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/Unikernel" target="_blank">Unikernel</a></li>
+        <li><a href="https://opencontainers.org" target="_blank">OCI</a></li>
+        <li>Cloud image</li>
+        <li><a href="https://en.wikipedia.org/wiki/VMDK" target="_blank">VMDK</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/VHD_(file_format)" target="_blank">VHD</a></li>
+        <li><a href="https://en.wikipedia.org/wiki/VHD_(file_format)" target="_blank">VHD</a></li>
+        <li>Others (see <a href="https://en.wikipedia.org/wiki/Comparison_of_platform_virtualization_software"
+                           target="_blank">Comparison of platform virtualization software</a>)
+        </li>
+      </ul>
+    </div>
+    <div class="feature">
+      <div class="feature-title">Package creation</div>
+      <p class="text-body">Centralise packaging, e.g., to make generic the old <a
+        href="https://en.wikipedia.org/wiki/LAMP_(software_bundle)" target="_blank">LAMP (software bundle)</a>;
+        handling:</p>
+      <ul class="multicol">
+        <li>Windows (.exe)</li>
+        <li>Windows (.msi)</li>
+        <li>macOS (.pkg)</li>
+        <li>macOS (.dmg)</li>
+        <li>[Linux] Red Hat compat. (.rpm)</li>
+        <li>[Linux] Debian compat. (.deb)</li>
+        <li>Regular archive for all supported OSs</li>
+      </ul>
+      <p class="text-body">Including the various triggers like:</p>
+      <ul class="multicol">
+        <li>Install</li>
+        <li>Uninstall</li>
+        <li>Daemon configuration</li>
+        <li>Automatic facilitation of side-by-side installs</li>
+      </ul>
+    </div>
+    <div class="feature-row">
+      <div class="feature">
+        <div class="feature-title">Testing</div>
+        <p class="text-body"></p>
+      </div>
+      <div class="feature">
+        <div class="feature-title">Benchmarking</div>
+        <p class="text-body"></p>
+      </div>
+      <div class="feature">
+        <div class="feature-title">CI</div>
+        <p class="text-body"></p>
+      </div>
+      <div class="feature">
+        <div class="feature-title">Quick start guides</div>
+        <p class="text-body"></p>
+      </div>
+      <div class="feature">
+        <div class="feature-title">Performance critical environments</div>
+        <p class="text-body"></p>
+      </div>
+    </div>
+    <div class="feature-row">
+      <div class="feature">
+        <div class="feature-title">Multitenancy with fine grained resource constraints</div>
+        <p class="text-body"></p>
+      </div>
+      <div class="feature">
+        <div class="feature-title">Building aaS environments</div>
+        <p class="text-body"></p>
+      </div>
+      <div class="feature">
+        <div class="feature-title">Experimenting with equivalent stack components</div>
+        <p class="text-body"></p>
       </div>
     </div>
     <hr>

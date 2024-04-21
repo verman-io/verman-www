@@ -6,7 +6,8 @@ import { SlidesComponent } from "../slides/slides.component";
   selector: 'app-learn-more',
   templateUrl: './learn-more.component.html',
   styleUrls: [
-    '../doc/doc.scss'
+    '../doc/doc.scss',
+    "./learn-more.component.scss"
   ]
 })
 export class LearnMoreComponent {
