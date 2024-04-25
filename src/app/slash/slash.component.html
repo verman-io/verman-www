@@ -9,7 +9,7 @@
     <!-- CONTAINER -->
     <div class="homepage-container">
       <h1 class="hero-headline no-title no-toc no-anchor" aria-label="Docker killer">
-        The Docker killer.<br>Cross-platform deploys.
+        The Docker killer.<br>Cross-platform native deploys.
       </h1>
 
       <div class="cta-button-container">
@@ -35,7 +35,7 @@
       <div>
         <section aria-labelledby="promo-0-title" class="text-block">
           <h2 id="promo-0-title" class="no-anchor">
-            Version Manager (verMan) per software is <strong style="font-weight: bold">the solution</strong>
+            Each software component deserves a <strong style="font-weight: bold">Version Manager (verMan)</strong>.
           </h2>
         </section>
       </div>
@@ -65,20 +65,30 @@
           </ul>
           <p class="text-body">Taking this to its logical extreme, let's create version managers for:</p>
           <ul dir="auto">
-            <li>Databases</li>
+            <li>Databases (incl. <a href="https://en.wikipedia.org/wiki/Computer_cluster" target="_blank">clustering</a>)</li>
             <ul>
               <li><a href="https://postgresql.org">PostgreSQL</a></li>
               <ul>
-                <li>Extensions</li>
+                <li>Extensions (<a href="https://gist.github.com/joelonsql/e5aa27f8cc9bd22b8999b7de8aee9d47"
+                                   target="_blank">big list here</a>; so a package manager for PostgreSQL extensions)
+                </li>
               </ul>
               <li><a href="https://mariadb.org">MariaDB</a></li>
               <li>
                 <del>Redis</del>
                 <a href="https://valkey.io/" target="_blank">Valkey</a></li>
             </ul>
-            <li>Application servers</li>
-            <li>Reverse proxies and HTTP servers</li>
-            <li>Cluster management solutions</li>
+            <li><a href="https://en.wikipedia.org/wiki/List_of_application_servers" target="_blank">Application
+              servers</a></li>
+            <li><a href="https://en.wikipedia.org/wiki/Reverse_proxy" target="_blank">Reverse proxies</a> and <a
+              href="https://en.wikipedia.org/wiki/Web_server" target="_blank">web servers</a></li>
+            <ul>
+              <li><a href="https://en.wikipedia.org/wiki/Nginx" target="_blank">nginx</a></li>
+              <li><a href="https://en.wikipedia.org/wiki/Apache_HTTP_Server" target="_blank">Apache HTTP Server</a></li>
+              <li>&hellip;</li>
+            </ul>
+            <li><a href="https://en.wikipedia.org/wiki/Cluster_manager" target="_blank">Cluster&mdash;&amp;
+              multi-cluster&mdash;management solutions</a></li>
             <ul>
               <li><a href="https://kubernetes.io" target="_blank">Kubernetes</a></li>
               <li><a href="https://docs.docker.com/compose" target="_blank">Docker Compose</a></li>
@@ -106,7 +116,8 @@
           <h2 id="promo-3-title" class="text-headline no-anchor">Cross-platform</h2>
           <!--<img alt="Hero image" src="../../assets/images/docs/research_logos-stacked.svg">-->
           <ul>
-            <li><a href="https://en.wikipedia.org/wiki/Microsoft_Windows" target="_blank">Windows</a> (not just <a
+            <li><a href="https://en.wikipedia.org/wiki/Microsoft_Windows"
+                   target="_blank">Windows</a>&nbsp;<em>native</em> (not just <a
               href="https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux#WSL_1">WSL 1</a> |
               <a href="https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux#WSL_2" target="_blank">WSL2</a> or
               some-sort of <a href="https://en.wikipedia.org/wiki/Cygwin" target="_blank">Cygwin</a> or <a
@@ -123,8 +134,10 @@
             <li>Mainframes</li>
             <li>Supercomputers</li>
           </ul>
-          <p class="text-body">Actually cross-platform. Unlike Docker on Windows and macOS, this is <strong>actually
-            native</strong>.</p>
+          <p class="text-body">Actually cross-platform. Unlike <a href="https://en.wikipedia.org/wiki/Docker_(software)"
+                                                                  target="_blank">Docker</a> on Windows and macOS, this
+            is <strong>actually
+              native</strong>.</p>
           <!--<p class="text-body"><a routerLink="doc/more"></a></p>-->
         </section>
       </div>
