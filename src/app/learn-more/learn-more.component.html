@@ -91,10 +91,15 @@
       <ul class="multicol">
         <li>Windows (.exe)</li>
         <li>Windows (<a href="https://en.wikipedia.org/wiki/Windows_Installer" target="_blank">.msi</a>)</li>
-        <li>macOS (<a href="https://en.wikipedia.org/wiki/List_of_built-in_macOS_apps#Installer" target="_blank">.pkg</a>)</li>
+        <li>macOS (<a href="https://en.wikipedia.org/wiki/List_of_built-in_macOS_apps#Installer"
+                      target="_blank">.pkg</a>)
+        </li>
         <li>macOS (<a href="https://en.wikipedia.org/wiki/Apple_Disk_Image" target="_blank">.dmg</a>)</li>
-        <li>[Linux] Red Hat compat. (<a href="https://en.wikipedia.org/wiki/RPM_Package_Manager" target="_blank">.rpm</a>)</li>
-        <li>[Linux] Debian compat. (<a href="https://en.wikipedia.org/wiki/Deb_(file_format)" target="_blank">.deb</a>)</li>
+        <li>[Linux] Red Hat compat. (<a href="https://en.wikipedia.org/wiki/RPM_Package_Manager"
+                                        target="_blank">.rpm</a>)
+        </li>
+        <li>[Linux] Debian compat. (<a href="https://en.wikipedia.org/wiki/Deb_(file_format)" target="_blank">.deb</a>)
+        </li>
         <li>Regular archive for all supported OSs</li>
         <li>&hellip;</li>
       </ul>
@@ -108,7 +113,8 @@
     </div>
     <div class="feature">
       <div class="feature-title">Configuration Management</div>
-      <p class="text-body">Similar to the aforementioned Image Creation; this replaces a large number of lines-of-code needed in existing systems.</p>
+      <p class="text-body">Similar to the aforementioned Image Creation; this replaces a large number of lines-of-code
+        needed in existing systems.</p>
       <ul class="multicol">
         <li><a href="https://en.wikipedia.org/wiki/Puppet_(software)" target="_blank">Puppet</a></li>
         <li><a href="https://en.wikipedia.org/wiki/Progress_Chef" target="_blank">Chef</a></li>
@@ -120,27 +126,65 @@
     </div>
     <div class="feature">
       <div class="feature-title">Bootstrapping</div>
-      <p class="text-body">Docker, Kubernetes, Mesos and others all suffer from a bootstrapping problem. How does one deploy Kubernetes? - With Kubernetes? - How about testing a large number of different versions of Kubernetes to test when a regression first occurred; and after applying a patch; testing that it is resolved in all supported versions?</p>
+      <p class="text-body">Docker, Kubernetes, Mesos and others all suffer from a bootstrapping problem. How does one
+        deploy Kubernetes? - With Kubernetes? - How about testing a large number of different versions of Kubernetes to
+        test when a regression first occurred; and after applying a patch; testing that it is resolved in all supported
+        versions?</p>
     </div>
     <div class="feature-row">
       <div class="feature">
         <div class="feature-title">Testing</div>
-        <p class="text-body"></p>
+        <p class="text-body">
+          Comparing multiple versions and configuration permutations concurrently is complex. <em>VerMan</em> simplifies
+          this testing.
+        </p>
       </div>
       <div class="feature">
         <div class="feature-title">Benchmarking</div>
-        <p class="text-body"></p>
+        <p class="text-body">Much like testing, benchmarking is also simplified through <em>VerMan</em>. Docker and
+          friends add overhead compounded by various areas of caching and nondeterminism. For example, <a
+            href="https://github.com/sharkdp/hyperfine" target="_blank"><code>hyperfine</code></a> and <a
+            href="https://github.com/fcsonline/drill" target="_blank"><code>drill</code></a> can now be used
+          indiscriminately.</p>
       </div>
       <div class="feature">
         <div class="feature-title">CI</div>
-        <p class="text-body"></p>
+        <p class="text-body">
+          GitHub Actions, Travis CI, Circle CI, and all the other CI systems (including in-house) each have their own
+          Domain Specific Language for specifying what to download, cache, and what versions to test across.
+          <em>VerMan</em> greatly simplifies this process, and if you're careful, can provide better caching and
+          resource usage (particularly when you have small quotas/budgets for your CI). It can also be used to build and
+          maintain new/existing CI systems.
+        </p>
       </div>
     </div>
+    <div class="feature">
+      <div class="feature-title">Quick start guides</div>
+      <p class="text-body">
+        It is common to see quick-start guides like:
+      </p>
+      <ol>
+        <li>Install docker</li>
+        <li>Run <code>docker compose up</code></li>
+      </ol>
+      <p class="text-body">
+        Which hides all the architectural information about: what components make-up the stack; how they talk to each
+        other; and what is substitutable. A carefully written quick-start guide with <em>verMan</em> might look
+        something like:
+      </p>
+      <ol>
+        <li>Download version manager for <code>my_application_name</code></li>
+        <li><code>my_application_name_vm install latest</code></li>
+        <li><code>my_application_name_vm run latest</code></li>
+        <li>See configuration file for stack details and various other points (like data locations and authentication
+          details)
+        </li>
+      </ol>
+      <p class="text-body">
+        Which adds an easy to understand configuration file.
+      </p>
+    </div>
     <div class="feature-row">
-      <div class="feature">
-        <div class="feature-title">Quick start guides</div>
-        <p class="text-body"></p>
-      </div>
       <div class="feature">
         <div class="feature-title">Performance critical environments</div>
         <p class="text-body"></p>
