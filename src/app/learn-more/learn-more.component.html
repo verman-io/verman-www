@@ -173,15 +173,15 @@
         something like:
       </p>
       <ol>
-        <li>Download version manager for <code>my_application_name</code></li>
-        <li><code>my_application_name_vm install latest</code></li>
-        <li><code>my_application_name_vm run latest</code></li>
+        <li>Download version manager for <code>verman</code></li>
+        <li><code>verman run latest -c .config/verman.toml</code></li>
         <li>See configuration file for stack details and various other points (like data locations and authentication
           details)
         </li>
       </ol>
       <p class="text-body">
-        Which adds an easy to understand configuration file.
+        Which adds an easy to understand configuration file. For an example <code>verman.toml</code>; see <a
+        routerLink="/doc/more" fragment="verman-toml">further below</a>.
       </p>
     </div>
     <div class="feature-row">
@@ -206,6 +206,78 @@
       <div class="feature">
         <div class="feature-title">Experimenting with equivalent stack components</div>
         <p class="text-body"></p>
+      </div>
+    </div>
+    <hr>
+  </div>
+
+  <div class="feature-section">
+    <div class="feature-header" id="verman-toml">
+      <div class="text-headline" style="text-transform: none"><code>verman.toml</code></div>
+    </div>
+    <div class="feature-row">
+      <div>
+        <div class="feature-title">Representative example (syntax version 0.0.1a)</div>
+
+        <pre style="background: rgba(219, 219, 219, 0.3)"><code>
+  [application]
+  name = "my_app"
+  version = "0.0.1"
+  # ^ these are inferred from package.json,
+  # pyproject.toml, setup.py &etc. if not provided
+
+  [stack.database.derives]
+  type = sql
+  env = env.DATABASE_URI
+  only_one = true
+  install_if_absent = false
+  start_if_stopped = false
+
+  # Priority is implied; first database mentioned is tried
+  [[stack.database]]
+  name = mariadb
+  version = >5
+
+  [[stack.database]]
+  name = postgres
+  version = >16
+  provider_priority:
+  - localhost
+  - postgres.verman.io
+  # global verman.toml provides auth and DNS details for:
+  - Google Cloud hosted DBaaS (AlloyDB)
+
+  [stack.application_server.derives]
+  lang = python
+  name = python_api_server
+  from = python_api_folder
+
+  [stack.application_server.derives]
+  lang = ruby
+  name = ruby_api_server
+  from = ruby_api_folder
+
+  [stack.static_files.derives]
+  build = false
+  from = dist_folder
+  target = env.WWWROOT
+
+  [stack.web_server_proxies.derives]
+  dns_name = my_app.verman.io
+  https = true
+  https_certificate_vendor = LetsEncrypt
+  mounts:
+        "/api/py":
+           - stack.application_server.python.uri
+        "/api/ruby":
+           - stack.application_server.ruby.uri
+        "/":
+           - stack.static_files.target
+
+  [[stack.web_server_proxies]]
+  name = nginx
+  # version unspecified means any version is sufficient
+      </code></pre>
       </div>
     </div>
     <hr>
