@@ -1,5 +1,5 @@
 import { NgModule} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterModule } from "@angular/router";
 
 import { SlashComponent } from './slash.component';
@@ -9,9 +9,9 @@ import { MatIcon } from "@angular/material/icon";
     declarations: [
       SlashComponent,
     ],
-  imports: [
-    CommonModule, RouterModule, RouterModule.forChild(slashRoutes), MatIcon,
-  ],
+    imports: [
+        CommonModule, RouterModule, RouterModule.forChild(slashRoutes), MatIcon, NgOptimizedImage,
+    ],
 
 })
 export class SlashModule { }

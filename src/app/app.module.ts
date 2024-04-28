@@ -2,7 +2,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from "@angular/common/http";
-import { LocationStrategy, PathLocationStrategy } from "@angular/common";
+import { LocationStrategy, NgOptimizedImage, PathLocationStrategy } from "@angular/common";
 
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatButtonModule } from "@angular/material/button";
@@ -123,22 +123,23 @@ export const svgIconProviders = [
     TopMenuComponent,
     ThemeToggleComponent,
   ],
-  imports: [
-    BrowserAnimationsModule,
-    BrowserModule,
-    HttpClientModule,
+    imports: [
+        BrowserAnimationsModule,
+        BrowserModule,
+        HttpClientModule,
 
-    MatButtonModule,
-    MatDialogModule,
-    MatIconModule,
-    MatProgressBarModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatToolbarModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatIconModule,
+        MatProgressBarModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatToolbarModule,
 
-    AppRoutingModule,
-    SlidesModule
-  ],
+        AppRoutingModule,
+        SlidesModule,
+        NgOptimizedImage
+    ],
   providers: [
     // Deployment,
     ErrorHandler,

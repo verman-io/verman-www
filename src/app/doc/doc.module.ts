@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 
@@ -16,10 +16,10 @@ import { docRoutes } from "./doc.routes";
   declarations: [
     LearnMoreComponent
   ],
-  imports: [
-    CommonModule, RouterModule, RouterModule.forChild(docRoutes),
-    MatSidenavModule, MatDialogModule, MatButtonModule, MatInputModule, MatIconModule,
-    FormsModule
-  ]
+    imports: [
+        CommonModule, RouterModule, RouterModule.forChild(docRoutes),
+        MatSidenavModule, MatDialogModule, MatButtonModule, MatInputModule, MatIconModule,
+        FormsModule, NgOptimizedImage
+    ]
 })
 export class DocModule { }

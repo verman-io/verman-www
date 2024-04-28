@@ -94,11 +94,11 @@ uri = "my_app.verman.io"
 
 [component.mounts."/api/py"]
 kind = "python"
-location = '${stack.components[kind=="python"].uri}'
+location = '${stack.components[.kind=="python"].uri}'
 
 [component.mounts."/api/ruby"]
 kind = "ruby"
-location = '${stack.components[kind=="ruby"].uri}'
+location = '${stack.components[.kind=="ruby"].uri}'
 
 [component.mounts."/"]
 kind = "static"

@@ -213,12 +213,36 @@
 
   <div class="feature-section">
     <div class="feature-header" id="verman-toml">
-      <div class="text-headline" style="text-transform: none"><code>verman.toml</code> example (syntax version 0.0.1b)</div>
+      <div class="text-headline" style="text-transform: none"><code>verman.toml</code> example (syntax version 0.0.1b)
+      </div>
+    </div>
+    <div>
+      <p class="text-body">
+        What follows is an example that deploys the following:
+      </p>
+      <ul>
+        <li>Ruby REST API (behind a Ruby application server)</li>
+        <li>Python REST API (behind a Python application server)</li>
+        <li>Database (SQL compatible)</li>
+        <li>Reverse proxy (that routes to the Ruby and Python APIs and serves the static files)</li>
+      </ul>
+      <p class="text-body">
+        Place a single <code>verman.toml</code> file in your repo root or <code>./config</code> subdirectory. The
+        smallest example that does the above would be:</p>
+      <pre style="background: rgba(219, 219, 219, 0.3); padding: 0 20px;"><code>
+[[stack.database]]
+kind = "sql"
+
+[[stack.web_server_or_proxy]]
+name = "my_name.verman.io"
+
+</code></pre>
+      <p class="text-body">&hellip; with more complex TOML&mdash;that still does the same&mdash;succeeding:</p>
     </div>
     <div class="feature-row">
-        <div class="feature-title">Prelude</div>
+      <div class="feature-title">Prelude</div>
 
-        <pre style="background: rgba(219, 219, 219, 0.3); padding: 0 20px;"><code>
+      <pre style="background: rgba(219, 219, 219, 0.3); padding: 0 20px;"><code>
 name = "verman-schema-rs"
 version = "0.0.1"
 license = "(Apache-2.0 OR MIT)"
@@ -232,8 +256,8 @@ authors = [ "Samuel Marks <&#64;SamuelMarks>" ]
 </code></pre>
     </div>
     <div class="feature-row">
-      <div class="feature-title">States / deploy configuration</div>
-<pre style="background: rgba(219, 219, 219, 0.3); padding: 0 20px;"><code>
+      <div class="feature-title">States / deploy semantics</div>
+      <pre style="background: rgba(219, 219, 219, 0.3); padding: 0 20px;"><code>
 # valid states =
 #    "always" | "graceful" | "untouched",
 #    "stop" | "remove" | "dry_run"
@@ -260,6 +284,9 @@ authors = [ "Samuel Marks <&#64;SamuelMarks>" ]
 # - delete all other files (if not simple archive invoke package-manager)
 
 </code></pre>
+    </div>
+    <div class="feature-row">
+      <div class="feature-title">States / deploy configuration</div>
       <pre style="background: rgba(219, 219, 219, 0.3); padding: 0 20px;"><code>
 [stack.state.database]
 kind = "sql"
@@ -325,16 +352,92 @@ uri = "my_app.verman.io"
 
 [component.mounts."/api/py"]
 kind = "python"
-location = '$&#123;stack.components[kind=="python"].uri&#125;'
+location = '$&#123;stack.components[.kind=="python"].uri&#125;'
 
 [component.mounts."/api/ruby"]
 kind = "ruby"
-location = '$&#123;stack.components[kind=="ruby"].uri&#125;'
+location = '$&#123;stack.components[.kind=="ruby"].uri&#125;'
 
 [component.mounts."/"]
 kind = "static"
 location = "$&#123;env.WWWROOT&#125;"
       </code></pre>
+    </div>
+    <!-- TODO: Figure out package-manager prioritisation -->
+    <hr>
+  </div>
+
+  <div class="feature-section">
+    <div class="feature-header">
+      <div class="text-headline">Future areas of exploration</div>
+      <img src="../../assets/images/docs/loved-by-millions.svg" alt="License icon">
+    </div>
+    <div class="feature-row">
+      <div class="feature">
+        <div class="feature-title">Clustering</div>
+        <p class="text-body">Handle complexities related to supporting different clustering schemes. Including:</p>
+        <ul>
+          <li>Master/slave</li>
+          <li>Multi-master</li>
+          <li>Multi-master with read-only slaves</li>
+          <li>Consensus</li>
+        </ul>
+      </div>
+      <div class="feature">
+        <div class="feature-title">Multicloud</div>
+        <p class="text-body">Deploy applications or even package verMan up as a multi-tenant PaaS platform for deploying
+          across
+          multiple cloud vendors (concurrently, strategically, or based on configuration-priority)</p>
+      </div>
+    </div>
+
+    <div class="feature-row">
+      <div class="feature">
+        <div class="feature-title">Resource constraints</div>
+        <p class="text-body">
+          Each OS has their own kernel-level features for limiting various resources. Sometimes this includes: CPU, GPU,
+          disk-usage, RAM usage.
+          At a base level:
+        </p>
+        <ul>
+          <li>[Linux] cgroups and namespaces;</li>
+          <li>[Windows] Sanboxie;</li>
+          <li>[SunOS] Zones;</li>
+          <li>[FreeBSD & derivatives] jails.</li>
+        </ul>
+      </div>
+      <div class="feature">
+        <div class="feature-title">Dashboards (CLI, web, GUI)</div>
+        <p class="text-body">Show what is deployed on target machine (e.g., local developer machine). Including
+          interesting things like:</p>
+        <ul>
+          <li>Tabulation of applications; including:</li>
+          <ul>
+            <li>Installed</li>
+            <li>Started</li>
+            <li>Logs</li>
+          </ul>
+          <li>Resource usage</li>
+          <ul>
+            <li>Disk usage</li>
+            <li>GPU, CPU, RAM</li>
+          </ul>
+        </ul>
+      </div>
+    </div>
+
+    <div class="feature-row">
+      <div class="feature">
+        <div class="feature-title">Logging</div>
+        <p class="text-body">Stream log files to log server components. Like all other parts, each part of this stack
+          should be configurable also (storage, queue, query-engine); all with globally relevant settings
+          (object-storage location, retention policy, &etc.).</p>
+      </div>
+      <div class="feature">
+        <div class="feature-title">Alerting</div>
+        <p class="text-body">For security, performance and budgetary purposes it's important to have proper alerting
+          available. This should link into the Logging stack as well as the cloud-vendor stack (esp. wrt. budget).</p>
+      </div>
     </div>
     <hr>
   </div>
@@ -350,7 +453,16 @@ location = "$&#123;env.WWWROOT&#125;"
         <div class="feature-title">Any cross-platform programming language</div>
         <p class="text-body">Examples in multiple languages. Recommended: Rust.</p>
         <ul>
-          <li><a href="https://github.com/offscale/version-manager-rs" target="_blank">Rust</a></li>
+          <li>Rust
+            <ul>
+              <li><a href="https://github.com/offscale/version-manager-rs" target="_blank">version-manager-rs</a>;</li>
+              <li>
+                <a href="https://github.com/offscale/mariadb-version-manager-rs" target="_blank">
+                  mariadb-version-manager-rs</a>;
+              </li>
+              <li><a href="https://github.com/verman-io/verman-schema-rs" target="_blank">verman-schema-rs</a>.</li>
+            </ul>
+          </li>
           <li><a href="https://github.com/offscale/postgres-version-manager-go" target="_blank">Go</a></li>
           <li><a href="https://github.com/offscale/libacquire" target="_blank">C</a></li>
         </ul>
