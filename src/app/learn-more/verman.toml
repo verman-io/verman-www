@@ -1,0 +1,95 @@
+name = "my_app"
+version = "0.0.1"
+license = "Apache-2.0 OR MIT"
+# ^ these are inferred from package.json,
+# pyproject.toml, setup.py &etc. if not provided
+
+[stack]
+
+# valid states = {
+#    "always", "graceful", "untouched",
+#    "stop", "remove", "dry_run"
+# }
+
+# "always" semantics:
+# - install or reinstall
+# - start or restart service
+
+# "graceful" semantics:
+# - reload service if stopped otherwise start
+
+# "untouched" / null (default) semantics:
+# - ping service, if not started/installed:
+#   - ping next service in array until end
+#   - error if no services are pingable
+#   - otherwise set env var for pingable service
+
+# "stop" semantics:
+# - uninstall service
+
+# "remove" semantics:
+# - stop service if running
+# - place config files in "deleted_${name}${version}/"
+# - delete all other files (if not simple archive invoke package-manager)
+
+# global defaults:
+
+[stack.state]
+database = [
+  { type = "sql", install = "always", start = "always" }
+]
+# type unspecified means wildcard
+application_server = [
+  { install = "always", start = "always" }
+]
+web_server_or_proxy = [
+  { install = "always", start = "always" }
+]
+
+[[stack.database]]
+type = "sql"
+# optional `state` replaces global setting
+# optional `name`, like "mariadb"
+
+[[stack.application_server]]
+type = "python"
+# other than `type`; rest optional:
+versions = ["~2.7", "~3.6", "~3.13"]
+server_priority = [
+  "Waitress",
+  "mod_wsgi",
+  "uvicorn"
+]
+
+[[stack.application_server]]
+type = "ruby"
+
+[[stack.web_server_or_proxy]]
+https = true
+
+[package]
+
+[[component]]
+src = "./python_api_folder/"
+# if not provided:
+# inferred from setup.py | setup.cfg | pyproject.toml
+type = "python"
+version = ">3.8"
+expose = "http://localhost:env.PYTHON_API_PORT"
+
+[[component]]
+src = "./ruby_api_folder/"
+# if not provided:
+# inferred from Gemfile | version.rb | VERSION | .gemspec
+type = "ruby"
+version = ">3.1.2, <3.2"
+expose = { "if(UNIX)" = "unix:///var/run/my-socket.sock", "if(WIN32)" = "\\\\.\\pipe\\PipeName" }
+
+[[component]]
+src = "virtual"
+type = "web_server_or_proxy"
+config.mounts = [
+  { "/api/py" = "stack.component[type=\"py\"].expose" },
+  { "/api/ruby" = "stack.component[type=\"ruby\"].expose" },
+  { "/" = "env.WWWROOT" },
+]

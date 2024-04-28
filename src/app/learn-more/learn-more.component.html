@@ -220,63 +220,101 @@
         <div class="feature-title">Representative example (syntax version 0.0.1a)</div>
 
         <pre style="background: rgba(219, 219, 219, 0.3)"><code>
-  [application]
-  name = "my_app"
-  version = "0.0.1"
-  # ^ these are inferred from package.json,
-  # pyproject.toml, setup.py &etc. if not provided
+name = "my_app"
+version = "0.0.1"
+license = "Apache-2.0 OR MIT"
+# ^ these are inferred from package.json,
+# pyproject.toml, setup.py &etc. if not provided
 
-  [stack.database.derives]
-  type = sql
-  env = env.DATABASE_URI
-  only_one = true
-  install_if_absent = false
-  start_if_stopped = false
+[stack]
 
-  # Priority is implied; first database mentioned is tried
-  [[stack.database]]
-  name = mariadb
-  version = >5
+# valid states = {{
+          #    "always", "graceful", "untouched",
+          #    "stop", "remove", "dry_run"
+          # }
 
-  [[stack.database]]
-  name = postgres
-  version = >16
-  provider_priority:
-  - localhost
-  - postgres.verman.io
-  # global verman.toml provides auth and DNS details for:
-  - Google Cloud hosted DBaaS (AlloyDB)
+# "always" semantics:
+# - install or reinstall
+# - start or restart service
 
-  [stack.application_server.derives]
-  lang = python
-  name = python_api_server
-  from = python_api_folder
+# "graceful" semantics:
+# - reload service if stopped otherwise start
 
-  [stack.application_server.derives]
-  lang = ruby
-  name = ruby_api_server
-  from = ruby_api_folder
+# "untouched" / null (default) semantics:
+# - ping service, if not started/installed:
+#   - ping next service in array until end
+#   - error if no services are pingable
+#   - otherwise set env var for pingable service
 
-  [stack.static_files.derives]
-  build = false
-  from = dist_folder
-  target = env.WWWROOT
+# "stop" semantics:
+# - uninstall service
 
-  [stack.web_server_proxies.derives]
-  dns_name = my_app.verman.io
-  https = true
-  https_certificate_vendor = LetsEncrypt
-  mounts:
-        "/api/py":
-           - stack.application_server.python.uri
-        "/api/ruby":
-           - stack.application_server.ruby.uri
-        "/":
-           - stack.static_files.target
+# "remove" semantics:
+# - stop service if running
+# - place config files in "deleted_${{name}${{version}/"
+# - delete all other files (if not simple archive invoke package-manager)
 
-  [[stack.web_server_proxies]]
-  name = nginx
-  # version unspecified means any version is sufficient
+# global defaults:
+
+[stack.state]
+database = [
+          {{ type = "sql", install = "always", start = "always" }
+]
+# type unspecified means wildcard
+application_server = [
+          {{ install = "always", start = "always" }
+]
+web_server_or_proxy = [
+          {{ install = "always", start = "always" }
+]
+
+[[stack.database]]
+type = "sql"
+# optional `state` replaces global setting
+# optional `name`, like "mariadb"
+
+[[stack.application_server]]
+type = "python"
+# other than `type`; rest optional:
+versions = ["~2.7", "~3.6", "~3.13"]
+server_priority = [
+  "Waitress",
+  "mod_wsgi",
+  "uvicorn"
+]
+
+[[stack.application_server]]
+type = "ruby"
+
+[[stack.web_server_or_proxy]]
+https = true
+
+[package]
+
+[[component]]
+src = "./python_api_folder/"
+# if not provided:
+# inferred from setup.py | setup.cfg | pyproject.toml
+type = "python"
+version = ">3.8"
+expose = "http://localhost:env.PYTHON_API_PORT"
+
+[[component]]
+src = "./ruby_api_folder/"
+# if not provided:
+# inferred from Gemfile | version.rb | VERSION | .gemspec
+type = "ruby"
+version = ">3.1.2, <3.2"
+expose = {{ "if(UNIX)" = "unix:///var/run/my-socket.sock", "if(WIN32)" = "\\\\.\\pipe\\PipeName" }
+
+[[component]]
+src = "virtual"
+type = "web_server_or_proxy"
+config.mounts = [
+          {{ "/api/py" = "stack.component[type=\"py\"].expose" },
+          {{ "/api/ruby" = "stack.component[type=\"ruby\"].expose" },
+          {{ "/" = "env.WWWROOT" },
+]
       </code></pre>
       </div>
     </div>
