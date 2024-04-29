@@ -8,45 +8,51 @@ authors = [ "Samuel Marks <@SamuelMarks>" ]
 # ^ these are inferred from package.json,
 # pyproject.toml, setup.py &etc. if not provided
 
+#############################
+# States / deploy semantics #
+#############################
+
+# enum State {
+#    /// [app/component] install or reinstall
+#    /// [service] start or restart
+#    "always",
+#
+#    /// [app/component] install if not installed
+#    /// [service] reload if stopped otherwise start
+#    "graceful",
+#
+#    /// [service] ping: if not started/installed:
+#    /// - ping next service in array until end
+#    /// - error if no services are pingable
+#    /// - otherwise set env var | config for pingable service
+#    "untouched",
+#
+#    /// [service] stop service (if service is running)
+#    "stop",
+#
+#    /// [service] uninstall service (if installed)
+#    /// [app/component] uninstall (if installed)
+#    "remove",
+#
+#    /// [service] list which services would be started
+#    /// [app/component] list what would be installed* (*without making any network requests)
+#    "dry_run",
+# }
+
 #################################
 # States / deploy configuration #
 #################################
-# valid states = {
-#    "always", "graceful", "untouched",
-#    "stop", "remove", "dry_run"
-# }
 
-# "always" semantics:
-# - install or reinstall
-# - start or restart service
-
-# "graceful" semantics:
-# - reload service if stopped otherwise start
-
-# "untouched" / null (default) semantics:
-# - ping service, if not started/installed:
-#   - ping next service in array until end
-#   - error if no services are pingable
-#   - otherwise set env var for pingable service
-
-# "stop" semantics:
-# - uninstall service
-
-# "remove" semantics:
-# - stop service if running
-# - place config files in "deleted_${name}${version}/"
-# - delete all other files (if not simple archive invoke package-manager)
-
-[stack.state.database]
+[stack_state.database]
 kind = "sql"
 install = "always"
 start = "always"
 
-[stack.state.application_server]
+[stack_state.application_server]
 install = "always"
 start = "always"
 
-[stack.state.web_server_or_proxy]
+[stack_state.web_server_or_proxy]
 install = "always"
 start = "always"
 
@@ -66,11 +72,20 @@ server_priority = [ "Waitress", "mod_wsgi", "uvicorn" ]
 [[stack.application_server]]
 kind = "ruby"
 
-[[stack.web_server_or_proxy]]
+###############################
+# Stack (web_server_or_proxy) #
+###############################
+
+[[stack_web_server_or_proxy]]
+# `name` is optional if no `CNAME` file
 name = "my_name.verman.io"
-# other than `name`; rest optional:
+# rest optional:
 protocol = "https"
 certificate_vendor = "LetsEncrypt"
+
+##############
+# Components #
+##############
 
 [[component]]
 src = "./python_api_folder/"

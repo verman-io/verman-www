@@ -4,5 +4,5 @@ import { LearnMoreComponent } from "../learn-more/learn-more.component";
 
 
 export const docRoutes: Routes = [
-  {path: 'more', component: LearnMoreComponent}
+  { path: 'more', component: LearnMoreComponent }
 ];

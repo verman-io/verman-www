@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from "@angular/material/dialog";
+
 import { SlidesComponent } from "../slides/slides.component";
 
 @Component({
@@ -12,6 +13,7 @@ import { SlidesComponent } from "../slides/slides.component";
 })
 export class LearnMoreComponent {
   constructor(public dialog: MatDialog) {}
+
   openSlides() {
     this.dialog.open(SlidesComponent, {
       width: "1000px",

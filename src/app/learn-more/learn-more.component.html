@@ -213,7 +213,8 @@
 
   <div class="feature-section">
     <div class="feature-header" id="verman-toml">
-      <div class="text-headline" style="text-transform: none"><code>verman.toml</code> example (syntax version 0.0.1b)
+      <div class="text-headline" style="text-transform: none"><code>verman.toml</code> example (syntax version
+        0.0.1-gamma)
       </div>
     </div>
     <div>
@@ -234,6 +235,7 @@
 kind = "sql"
 
 [[stack.web_server_or_proxy]]
+# Technically optional; could be inferred from `CNAME` file
 name = "my_name.verman.io"
 
 </code></pre>
@@ -258,46 +260,48 @@ authors = [ "Samuel Marks <&#64;SamuelMarks>" ]
     <div class="feature-row">
       <div class="feature-title">States / deploy semantics</div>
       <pre style="background: rgba(219, 219, 219, 0.3); padding: 0 20px;"><code>
-# valid states =
-#    "always" | "graceful" | "untouched",
-#    "stop" | "remove" | "dry_run"
+enum State &#123;
+   /// [app/component] install or reinstall
+   /// [service] start or restart
+   "always",
 
-# "always" semantics:
-# - install or reinstall
-# - start or restart service
+   /// [app/component] install if not installed
+   /// [service] reload if stopped otherwise start
+   "graceful",
 
-# "graceful" semantics:
-# - reload service if stopped otherwise start
+   /// [service] ping: if not started/installed:
+   /// - ping next service in array until end
+   /// - error if no services are pingable
+   /// - otherwise set env var | config for pingable service
+   "untouched",
 
-# "untouched" / null (default) semantics:
-# - ping service, if not started/installed:
-# - ping next service in array until end
-# - error if no services are pingable
-# - otherwise set env var for pingable service
+   /// [service] stop service (if service is running)
+   "stop",
 
-# "stop" semantics:
-# - uninstall service
+   /// [service] uninstall service (if installed)
+   /// [app/component] uninstall (if installed)
+   "remove",
 
-# "remove" semantics:
-# - stop service if running
-# - place config files in "deleted_$&#123;name&#125;$&#123;version&#125;/"
-# - delete all other files (if not simple archive invoke package-manager)
+   /// [service] list which services would be started
+   /// [app/component] list what would be installed* (*without making any network requests)
+   "dry_run"
+&#125;
 
 </code></pre>
     </div>
     <div class="feature-row">
       <div class="feature-title">States / deploy configuration</div>
       <pre style="background: rgba(219, 219, 219, 0.3); padding: 0 20px;"><code>
-[stack.state.database]
+[stack_state.database]
 kind = "sql"
 install = "always"
 start = "always"
 
-[stack.state.application_server]
+[stack_state.application_server]
 install = "always"
 start = "always"
 
-[stack.state.web_server_or_proxy]
+[stack_state.web_server_or_proxy]
 install = "always"
 start = "always"
 
@@ -319,9 +323,16 @@ server_priority = [ "Waitress", "mod_wsgi", "uvicorn" ]
 [[stack.application_server]]
 kind = "ruby"
 
-[[stack.web_server_or_proxy]]
+</code></pre>
+    </div>
+
+    <div class="feature-row">
+      <div class="feature-title">Stack (web_server_or_proxy)</div>
+      <pre style="background: rgba(219, 219, 219, 0.3); padding: 0 20px;"><code>
+[[stack_web_server_or_proxy]]
+# `name` is optional if no `CNAME` file
 name = "my_name.verman.io"
-# other than `name`; rest optional:
+# rest optional:
 protocol = "https"
 certificate_vendor = "LetsEncrypt"
 
