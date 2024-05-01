@@ -363,6 +363,14 @@ version = ">3.1.2, <3.2"
 kind = "routing"
 uri = "my_app.verman.io"
 
+# Escape-hatch to the basic `mounts` syntax, you can punch out of verman like so:
+[component.vendor.nginx]
+windows = "win_nginx.site_avail.conf"
+_ = "nginx.site_avail.conf"  # else/default block
+version = ">1.25"  # components can also require a specific version
+# OS list is from https://doc.rust-lang.org/std/env/consts/constant.OS.html
+# if routing `vendor` is not `nginx` then the below takes priority:
+
 [component.mounts."/api/py"]
 kind = "python"
 location = '$&#123;stack.components[.kind=="python"].uri&#125;'
@@ -409,8 +417,8 @@ location = "$&#123;env.WWWROOT&#125;"
         <div class="feature-title">Resource constraints</div>
         <p class="text-body">
           Each OS has their own kernel-level features for limiting various resources. Sometimes this includes: CPU, GPU,
-          disk-usage, RAM usage.
-          At a base level:
+          disk-usage, RAM usage. If you're lucky, it also has network isolation features. A brief survey of
+          technologies:
         </p>
         <ul>
           <li>[Linux] cgroups and namespaces;</li>
