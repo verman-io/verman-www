@@ -52,7 +52,7 @@ start = "always"
 install = "always"
 start = "always"
 
-[stack_state.web_server_or_proxy]
+[stack_state.routing]
 install = "always"
 start = "always"
 
@@ -73,15 +73,17 @@ server_priority = [ "Waitress", "mod_wsgi", "uvicorn" ]
 kind = "ruby"
 
 ###############################
-# Stack (web_server_or_proxy) #
+# Stack (routing) #
 ###############################
 
-[[stack_web_server_or_proxy]]
+[[stack_routing]]
 # `name` is optional if no `CNAME` file
 name = "my_name.verman.io"
 # rest optional:
 protocol = "https"
 certificate_vendor = "LetsEncrypt"
+provider = "nginx"  # AWS Route 53 | Apache | ...
+provider_version = "*"
 
 ##############
 # Components #
@@ -97,15 +99,23 @@ version = ">3.8"
 
 [[component]]
 src = "./ruby_api_folder/"
-uri = '${if(WIN32) { "\\.\pipe\PipeName" } else { "unix:///var/run/my-socket.sock" }}'
+uri = '${if(windows) { "\\.\pipe\PipeName" } else { "unix:///var/run/my-socket.sock" }}'
 # inferred from Gemfile | version.rb | VERSION | .gemspec
 # ...or you can explicitly specify these two:
 kind = "ruby"
 version = ">3.1.2, <3.2"
 
 [[component]]
-kind = "web_server_or_proxy"
+kind = "routing"
 uri = "my_app.verman.io"
+
+# Escape-hatch to the basic `mounts` syntax, you can punch out of verman like so:
+[component.vendor.nginx]
+windows = "win_nginx.site_avail.conf"
+_ = "nginx.site_avail.conf"  # else/default block
+version = ">1.25"  # components can also require a specific version
+# OS list is from https://doc.rust-lang.org/std/env/consts/constant.OS.html
+# if routing `vendor` is not `nginx` then the below takes priority:
 
 [component.mounts."/api/py"]
 kind = "python"

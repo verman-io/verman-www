@@ -234,7 +234,7 @@
 [[stack.database]]
 kind = "sql"
 
-[[stack.web_server_or_proxy]]
+[[stack_routing]]
 # Technically optional; could be inferred from `CNAME` file
 name = "my_name.verman.io"
 
@@ -301,7 +301,7 @@ start = "always"
 install = "always"
 start = "always"
 
-[stack_state.web_server_or_proxy]
+[stack_state.routing]
 install = "always"
 start = "always"
 
@@ -327,14 +327,16 @@ kind = "ruby"
     </div>
 
     <div class="feature-row">
-      <div class="feature-title">Stack (web_server_or_proxy)</div>
+      <div class="feature-title">Stack (routing)</div>
       <pre style="background: rgba(219, 219, 219, 0.3); padding: 0 20px;"><code>
-[[stack_web_server_or_proxy]]
+[[stack_routing]]
 # `name` is optional if no `CNAME` file
 name = "my_name.verman.io"
 # rest optional:
 protocol = "https"
 certificate_vendor = "LetsEncrypt"
+provider = "nginx"  # AWS Route 53 | Apache | ...
+provider_version = "*"
 
 </code></pre>
     </div>
@@ -358,7 +360,7 @@ kind = "ruby"
 version = ">3.1.2, <3.2"
 
 [[component]]
-kind = "web_server_or_proxy"
+kind = "routing"
 uri = "my_app.verman.io"
 
 [component.mounts."/api/py"]
