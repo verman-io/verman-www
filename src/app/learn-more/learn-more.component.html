@@ -344,32 +344,48 @@ provider_version = "*"
       <div class="feature-title">Component configuration</div>
       <pre style="background: rgba(219, 219, 219, 0.3); padding: 0 20px;"><code>
 [[component]]
-src = "./python_api_folder/"
-uri = "http://localhost:$&#123;env.PYTHON_API_PORT&#125;"
+src_uri = "file://python_api_folder/"
+dst_uri = "http://localhost:$&#123;env.PYTHON_API_PORT&#125;"
+
 # inferred from setup.py | setup.cfg | pyproject.toml
-# ...or you can explicitly specify these two:
-kind = "python"
-version = ">3.8"
+# ...or you can explicitly specify constraints:
+constraints = [ &#123; kind = "lang", required_variant = "python" &#125;, &#123; kind = "OS" &#125; ]
 
 [[component]]
-src = "./ruby_api_folder/"
-uri = '$&#123;if(WIN32) &#123; "\\.\pipe\PipeName" &#125; else &#123; "unix:///var/run/my-socket.sock" &#125;&#125;'
+src_uri = "file://ruby_api_folder/"
+
+[component.dst_uri]
+if = "OS == \"windows\""
+then = '"\\.\pipe\PipeName"'
+else = "\"unix:///var/run/my-socket.sock\""
+
+[[component.constraints]]
+kind = "lang"
+required_variant = "ruby"
 # inferred from Gemfile | version.rb | VERSION | .gemspec
-# ...or you can explicitly specify these two:
-kind = "ruby"
-version = ">3.1.2, <3.2"
+# ...or you can explicitly specify constraints:
+required_version = ">3.1.2, <3.2"
+
+[[component.constraints]]
+kind = "OS"
+required_variant = "$&#123;\"linux\" || \"windows\"&#125;"
 
 [[component]]
-kind = "routing"
-uri = "my_app.verman.io"
+dst_uri = "my_app.verman.io"
+constraints = [ &#123; kind = "routing" &#125; ]
 
 # Escape-hatch to the basic `mounts` syntax, you can punch out of verman like so:
-[component.vendor.nginx]
-windows = "win_nginx.site_avail.conf"
-_ = "nginx.site_avail.conf"  # else/default block
-version = ">1.25"  # components can also require a specific version
+
+[component.vendor.nginx.windows]
+kind = "server_block"
+uri = "file://win_nginx.site_avail.conf"
+
+[component.vendor.nginx.linux]
+kind = "server_block"
+uri = "file://nginx.site_avail.conf"
+
 # OS list is from https://doc.rust-lang.org/std/env/consts/constant.OS.html
-# if routing `vendor` is not `nginx` then the below takes priority:
+# if (routing `vendor` is not `nginx` or OS does not match) then the below takes priority:
 
 [component.mounts."/api/py"]
 kind = "python"
@@ -442,7 +458,8 @@ location = "$&#123;env.WWWROOT&#125;"
           <ul>
             <li>Disk usage</li>
             <li>GPU, CPU, RAM</li>
-          </ul>
+            <li>Network</li>
+          </ul>/
         </ul>
       </div>
     </div>

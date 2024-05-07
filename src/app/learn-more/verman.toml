@@ -3,7 +3,7 @@ version = "0.0.1"
 license = "(Apache-2.0 OR MIT)"
 homepage = "https://verman.io"
 repo = "https://github.com/verman-io"
-authors = [ "Samuel Marks <@SamuelMarks>" ]
+authors = ["Samuel Marks <@SamuelMarks>"]
 
 # ^ these are inferred from package.json,
 # pyproject.toml, setup.py &etc. if not provided
@@ -66,8 +66,8 @@ kind = "sql"
 [[stack.application_server]]
 kind = "python"
 # other than `kind`; rest optional:
-versions = [ "~2.7", "~3.6", "~3.13" ]
-server_priority = [ "Waitress", "mod_wsgi", "uvicorn" ]
+versions = ["~2.7", "~3.6", "~3.13"]
+server_priority = ["Waitress", "mod_wsgi", "uvicorn"]
 
 [[stack.application_server]]
 kind = "ruby"
@@ -90,32 +90,48 @@ provider_version = "*"
 ##############
 
 [[component]]
-src = "./python_api_folder/"
-uri = "http://localhost:${env.PYTHON_API_PORT}"
+src_uri = "file://python_api_folder/"
+dst_uri = "http://localhost:${env.PYTHON_API_PORT}"
+
 # inferred from setup.py | setup.cfg | pyproject.toml
-# ...or you can explicitly specify these two:
-kind = "python"
-version = ">3.8"
+# ...or you can explicitly specify constraints:
+constraints = [ { kind = "lang", required_variant = "python" }, { kind = "OS" } ]
 
 [[component]]
-src = "./ruby_api_folder/"
-uri = '${if(windows) { "\\.\pipe\PipeName" } else { "unix:///var/run/my-socket.sock" }}'
+src_uri = "file://ruby_api_folder/"
+
+[component.dst_uri]
+if = "OS == \"windows\""
+then = '"\\.\pipe\PipeName"'
+else = "\"unix:///var/run/my-socket.sock\""
+
+[[component.constraints]]
+kind = "lang"
+required_variant = "ruby"
 # inferred from Gemfile | version.rb | VERSION | .gemspec
-# ...or you can explicitly specify these two:
-kind = "ruby"
-version = ">3.1.2, <3.2"
+# ...or you can explicitly specify constraints:
+required_version = ">3.1.2, <3.2"
+
+[[component.constraints]]
+kind = "OS"
+required_variant = "${\"linux\" || \"windows\"}"
 
 [[component]]
-kind = "routing"
-uri = "my_app.verman.io"
+dst_uri = "my_app.verman.io"
+constraints = [ { kind = "routing" } ]
 
 # Escape-hatch to the basic `mounts` syntax, you can punch out of verman like so:
-[component.vendor.nginx]
-windows = "win_nginx.site_avail.conf"
-_ = "nginx.site_avail.conf"  # else/default block
-version = ">1.25"  # components can also require a specific version
+
+[component.vendor.nginx.windows]
+kind = "server_block"
+uri = "file://win_nginx.site_avail.conf"
+
+[component.vendor.nginx.linux]
+kind = "server_block"
+uri = "file://nginx.site_avail.conf"
+
 # OS list is from https://doc.rust-lang.org/std/env/consts/constant.OS.html
-# if routing `vendor` is not `nginx` then the below takes priority:
+# if (routing `vendor` is not `nginx` or OS does not match) then the below takes priority:
 
 [component.mounts."/api/py"]
 kind = "python"
