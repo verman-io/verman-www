@@ -10,10 +10,12 @@ import { MatIconModule } from "@angular/material/icon";
 
 import { LearnMoreComponent } from "../learn-more/learn-more.component";
 import { docRoutes } from "./doc.routes";
+import { VermanSpecComponent } from '../verman-spec/verman-spec.component';
 
 @NgModule({
   declarations: [
-    LearnMoreComponent
+    LearnMoreComponent,
+    VermanSpecComponent
   ],
     imports: [
       CommonModule, RouterModule, RouterModule.forChild(docRoutes), NgOptimizedImage,

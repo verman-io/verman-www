@@ -1,0 +1,547 @@
+<div class="doc-navbar"></div>
+<header class="marketing-banner" style="display: flex; justify-content:space-between;">
+  <h2 class="banner-headline no-toc no-anchor">verMan specification</h2>
+  <button mat-raised-button style="background: #2E7D32; color: whitesmoke; justify-content: flex-end;" routerLink="."
+          fragment="verman-toml">Scroll to verman.toml specification
+  </button>
+</header>
+
+<div class="feature-section">
+  <div class="feature-header" id="verman">
+    <div class="text-headline" style="text-transform: none"><code>&#123;package_name&#125;-version-manager</code></div>
+  </div>
+  <div class="feature" style="margin: 0 16px">
+    <p class="text-body">
+      The idea is to basically follow the interface that <code>nvm</code> provides; with some new abstractions that
+      generalise to services. Everything can have a service, from a database to a programming language (the latter being
+      a <a href="https://en.wikipedia.org/wiki/Language_Server_Protocol" target="_blank">language server</a>).
+    </p>
+  </div>
+  <div class="feature" style="margin: 0 16px">
+    <h2 id="command-line-help-for-name-version-manager-rs">Command-Line Help
+      for <code>NAME-version-manager-rs</code></h2>
+    <p>This document contains the help content for the
+      <code>NAME-version-manager-rs</code> command-line program.</p>
+    <p><strong>Command Overview:</strong></p>
+    <ul>
+      <li><a
+        routerLink="." fragment="name-version-manager-rs"><code>NAME-version-manager-rs</code>↴</a></li>
+      <li><a
+        routerLink="." fragment="name-version-manager-rs-download"><code>NAME-version-manager-rs download</code>↴</a>
+      </li>
+      <li><a
+        routerLink="." fragment="name-version-manager-rs-download-plan"><code>NAME-version-manager-rs
+        download-plan</code>↴</a></li>
+      <li><a
+        routerLink="." fragment="name-version-manager-rs-env"><code>NAME-version-manager-rs env</code>↴</a></li>
+      <li><a
+        routerLink="." fragment="name-version-manager-rs-install"><code>NAME-version-manager-rs install</code>↴</a></li>
+      <li><a
+        routerLink="." fragment="name-version-manager-rs-install-dependencies"><code>NAME-version-manager-rs
+        install-dependencies</code>↴</a></li>
+      <li><a
+        routerLink="." fragment="name-version-manager-rs-ls"><code>NAME-version-manager-rs ls</code>↴</a></li>
+      <li><a
+        routerLink="." fragment="name-version-manager-rs-ls-remote"><code>NAME-version-manager-rs ls-remote</code>↴</a>
+      </li>
+      <li><a
+        routerLink="." fragment="name-version-manager-rs-uri"><code>NAME-version-manager-rs uri</code>↴</a></li>
+      <li><a
+        routerLink="." fragment="name-version-manager-rs-service"><code>NAME-version-manager-rs service</code>↴</a></li>
+      <li><a
+        routerLink="." fragment="name-version-manager-rs-service-install"><code>NAME-version-manager-rs service
+        install</code>↴</a>
+      </li>
+      <li><a
+        routerLink="." fragment="name-version-manager-rs-service-install-open-rc"><code>NAME-version-manager-rs service
+        install
+        open-rc</code>↴</a></li>
+      <li><a
+        routerLink="." fragment="name-version-manager-rs-service-install-systemd"><code>NAME-version-manager-rs service
+        install
+        systemd</code>↴</a></li>
+      <li><a
+        routerLink="." fragment="name-version-manager-rs-service-install-windows-service"><code>NAME-version-manager-rs
+        service
+        install windows-service</code>↴</a></li>
+      <li><a
+        routerLink="." fragment="name-version-manager-rs-service-reload"><code>NAME-version-manager-rs service
+        reload</code>↴</a></li>
+      <li><a
+        routerLink="." fragment="name-version-manager-rs-service-start"><code>NAME-version-manager-rs service
+        start</code>↴</a></li>
+      <li><a
+        routerLink="." fragment="name-version-manager-rs-service-stop"><code>NAME-version-manager-rs service stop</code>↴</a>
+      </li>
+    </ul>
+    <h4
+      id="name-version-manager-rs"><code>NAME-version-manager-rs</code></h4>
+    <p><strong>Usage:</strong>
+      <code>NAME-version-manager-rs [OPTIONS] &lt;COMMAND&gt;</code></p>
+    <h6 id="subcommands"><strong>Subcommands:</strong></h6>
+    <ul>
+      <li><code>download</code> — Download specified version</li>
+      <li><code>download-plan</code> — Resolve download URL and hash/checksum.
+        Useful for security and concurrency.
+      </li>
+      <li><code>env</code> — Print out associated environment variables</li>
+      <li><code>install</code> — Install specified version</li>
+      <li><code>install-dependencies</code> — Install (only) dependencies for
+        specified version
+      </li>
+      <li><code>ls</code> — List what versions are installed</li>
+      <li><code>ls-remote</code> — List what versions are available</li>
+      <li><code>uri</code> — Print out database connection string</li>
+      <li><code>service</code> — Service management</li>
+    </ul>
+    <h6 id="options"><strong>Options:</strong></h6>
+    <ul>
+      <li><p><code>--vms-config &lt;VMS_CONFIG&gt;</code> — Config file to
+        read from. If provided used as new default (before env and argv res)</p>
+        <p>Default value:
+          <code>$HOME/version-managers/NAME-version-manager-rs/vms-config.json</code></p></li>
+      <li><p><code>--config-read</code> — Whether to read from config file. If
+        vms_config provided, this defaults to <code>true</code></p>
+        <p>Default value: <code>false</code></p></li>
+      <li><p><code>--config-write</code> — Whether to write to config file</p>
+        <p>Default value: <code>true</code></p></li>
+      <li><p><code>--app-version &lt;APP_VERSION&gt;</code> — Desired version
+        of application</p>
+        <p>Default value: <code>latest</code></p></li>
+      <li><p><code>--vm-root &lt;VM_ROOT&gt;</code> — root directory for all
+        version-managers. For download cache and interdependencies</p>
+        <p>Default value: <code>$HOME/version-managers</code></p></li>
+      <li><p><code>--root &lt;ROOT&gt;</code> — Root directory. By default all
+        paths are relative to this one</p>
+        <p>Default value:
+          <code>$HOME/version-managers/NAME-version-manager-rs</code></p></li>
+      <li><p><code>--hostname &lt;HOSTNAME&gt;</code> — Hostname of server</p>
+        <p>Default value: <code>localhost</code></p></li>
+      <li><p><code>-p</code>, <code>--port &lt;PORT&gt;</code> — Port for
+        server to listen on</p></li>
+      <li><p><code>--database &lt;DATABASE&gt;</code> — Database name</p>
+        <p>Default value: <code>database</code></p></li>
+      <li><p><code>--runtime-path &lt;RUNTIME_PATH&gt;</code> — Runtime path.
+        This is where PID files and/or similar temporary files are stored</p>
+        <p>Default value:
+          <code>$HOME/version-managers/NAME-version-manager-rs/NAME-version-manager-rs/$APP_VERSION/run</code></p>
+      </li>
+      <li><p><code>--data-path &lt;DATA_PATH&gt;</code> — Data path. This is
+        where the actual data is stored, e.g., the .db and WAL files</p>
+        <p>Default value:
+          <code>$HOME/version-managers/NAME-version-manager-rs/NAME-version-manager-rs/$APP_VERSION/data</code></p>
+      </li>
+      <li><p><code>--bin-path &lt;BIN_PATH&gt;</code> — Binary path. Where the
+        executable binary are located. Sometimes called PREFIX</p>
+        <p>Default value:
+          <code>$HOME/version-managers/NAME-version-manager-rs/NAME-version-manager-rs/$APP_VERSION/bin</code></p>
+      </li>
+      <li><p><code>--logs-path &lt;LOGS_PATH&gt;</code> — Logs path. Where the
+        log files are to be stored</p>
+        <p>Default value:
+          <code>$HOME/version-managers/NAME-version-manager-rs/NAME-version-manager-rs/$APP_VERSION/logs</code></p>
+      </li>
+      <li><p><code>--locale &lt;LOCALE&gt;</code> — Locale to use</p>
+        <p>Default value: <code>en_US.UTF-8</code></p></li>
+      <li><p><code>--markdown-help</code> — Markdown help generator. Only
+        really used to generate replacement README.md files</p></li>
+    </ul>
+    <h4
+      id="name-version-manager-rs-download"><code>NAME-version-manager-rs download</code></h4>
+    <p>Download specified version</p>
+    <p><strong>Usage:</strong>
+      <code>NAME-version-manager-rs download [VERSION]</code></p>
+    <h6 id="arguments"><strong>Arguments:</strong></h6>
+    <ul>
+      <li><code>&lt;VERSION&gt;</code> — version to install, defaults to
+        global arg if provided otherwise env var
+      </li>
+    </ul>
+    <h4
+      id="name-version-manager-rs-download-plan"><code>NAME-version-manager-rs download-plan</code></h4>
+    <p>Resolve download URL and hash/checksum. Useful for security and
+      concurrency.</p>
+    <p><strong>Usage:</strong>
+      <code>NAME-version-manager-rs download-plan [VERSION]</code></p>
+    <h6 id="arguments-1"><strong>Arguments:</strong></h6>
+    <ul>
+      <li><code>&lt;VERSION&gt;</code> — version to install, defaults to
+        global arg if provided otherwise env var
+      </li>
+    </ul>
+    <h4
+      id="name-version-manager-rs-env"><code>NAME-version-manager-rs env</code></h4>
+    <p>Print out associated environment variables</p>
+    <p><strong>Usage:</strong> <code>NAME-version-manager-rs env</code></p>
+    <h4
+      id="name-version-manager-rs-install"><code>NAME-version-manager-rs install</code></h4>
+    <p>Install specified version</p>
+    <p><strong>Usage:</strong>
+      <code>NAME-version-manager-rs install [VERSION] [SKIP_DEPENDENCIES]...</code></p>
+    <h6 id="arguments-2"><strong>Arguments:</strong></h6>
+    <ul>
+      <li><code>&lt;VERSION&gt;</code> — version to install, defaults to
+        global arg if provided otherwise env var
+      </li>
+      <li><code>&lt;SKIP_DEPENDENCIES&gt;</code> — dependencies to skip
+        installation of, defaults to install all. Skip all with *
+      </li>
+    </ul>
+    <h4
+      id="name-version-manager-rs-install-dependencies"><code>NAME-version-manager-rs install-dependencies</code></h4>
+    <p>Install (only) dependencies for specified version</p>
+    <p><strong>Usage:</strong>
+      <code>NAME-version-manager-rs install-dependencies [VERSION]</code></p>
+    <h6 id="arguments-3"><strong>Arguments:</strong></h6>
+    <ul>
+      <li><code>&lt;VERSION&gt;</code> — version to install, defaults to
+        global arg if provided otherwise env var
+      </li>
+    </ul>
+    <h4
+      id="name-version-manager-rs-ls"><code>NAME-version-manager-rs ls</code></h4>
+    <p>List what versions are installed</p>
+    <p><strong>Usage:</strong> <code>NAME-version-manager-rs ls</code></p>
+    <h4
+      id="name-version-manager-rs-ls-remote"><code>NAME-version-manager-rs ls-remote</code></h4>
+    <p>List what versions are available</p>
+    <p><strong>Usage:</strong>
+      <code>NAME-version-manager-rs ls-remote</code></p>
+    <h4
+      id="name-version-manager-rs-uri"><code>NAME-version-manager-rs uri</code></h4>
+    <p>Print out database connection string</p>
+    <p><strong>Usage:</strong> <code>NAME-version-manager-rs uri</code></p>
+    <h4
+      id="name-version-manager-rs-service"><code>NAME-version-manager-rs service</code></h4>
+    <p>Service management</p>
+    <p><strong>Usage:</strong>
+      <code>NAME-version-manager-rs service &lt;COMMAND&gt;</code></p>
+    <h6 id="subcommands-1"><strong>Subcommands:</strong></h6>
+    <ul>
+      <li><code>install</code> — Install service (daemon), e.g., systemd,
+        OpenRC, windows-service
+      </li>
+      <li><code>reload</code> — Reload specified version</li>
+      <li><code>start</code> — Start specified version</li>
+      <li><code>stop</code> — Stop specified version</li>
+    </ul>
+    <h4
+      id="name-version-manager-rs-service-install"><code>NAME-version-manager-rs service install</code></h4>
+    <p>Install service (daemon), e.g., systemd, OpenRC, windows-service</p>
+    <p><strong>Usage:</strong>
+      <code>NAME-version-manager-rs service install install &lt;COMMAND&gt;</code></p>
+    <h6 id="subcommands-2"><strong>Subcommands:</strong></h6>
+    <ul>
+      <li><code>open-rc</code> — Install OpenRC service</li>
+      <li><code>systemd</code> — Install systemd service</li>
+      <li><code>windows-service</code> — Install Windows Service</li>
+    </ul>
+    <h4
+      id="name-version-manager-rs-service-install-open-rc"><code>NAME-version-manager-rs service install
+      open-rc</code></h4>
+    <p>Install OpenRC service</p>
+    <p><strong>Usage:</strong>
+      <code>NAME-version-manager-rs service install open-rc [OPTIONS]</code></p>
+    <h6 id="options-1"><strong>Options:</strong></h6>
+    <ul>
+      <li><p><code>--group &lt;GROUP&gt;</code> — user group to run service
+        as</p>
+        <p>Default value: <code>NAME-version-manager-rs</code></p></li>
+      <li><p><code>--config-install-path &lt;CONFIG_INSTALL_PATH&gt;</code> —
+        where to install the config file</p>
+        <p>Default value:
+          <code>/etc/conf.d/NAME-version-manager-rs</code></p></li>
+      <li><p><code>--service-install-path &lt;SERVICE_INSTALL_PATH&gt;</code>
+        — where to install the service file</p>
+        <p>Default value:
+          <code>/etc/init.d/NAME-version-manager-rs</code></p></li>
+      <li><p><code>--user &lt;USER&gt;</code> — user to run service as</p>
+        <p>Default value: <code>NAME-version-manager-rs</code></p></li>
+    </ul>
+    <h4
+      id="name-version-manager-rs-service-install-systemd"><code>NAME-version-manager-rs service install
+      systemd</code></h4>
+    <p>Install systemd service</p>
+    <p><strong>Usage:</strong>
+      <code>NAME-version-manager-rs service install systemd [OPTIONS]</code></p>
+    <h6 id="options-2"><strong>Options:</strong></h6>
+    <ul>
+      <li><p><code>--group &lt;GROUP&gt;</code> — user group to run service
+        as</p>
+        <p>Default value: <code>NAME-version-manager-rs</code></p></li>
+      <li><p><code>--service-install-path &lt;SERVICE_INSTALL_PATH&gt;</code>
+        — where to install the service file</p>
+        <p>Default value:
+          <code>/etc/systemd/system/NAME-version-manager-rs.service</code></p></li>
+      <li><p><code>--user &lt;USER&gt;</code> — user to run service as</p>
+        <p>Default value: <code>NAME-version-manager-rs</code></p></li>
+    </ul>
+    <h4
+      id="name-version-manager-rs-service-install-windows-service"><code>NAME-version-manager-rs service install
+      windows-service</code></h4>
+    <p>Install Windows Service</p>
+    <p><strong>Usage:</strong>
+      <code>NAME-version-manager-rs service install windows-service [OPTIONS]</code></p>
+    <h6 id="options-3"><strong>Options:</strong></h6>
+    <ul>
+      <li><p><code>--service-name &lt;SERVICE_NAME&gt;</code> — name of
+        service</p>
+        <p>Default value: <code>NAME-version-manager-rs</code></p></li>
+      <li><p><code>--service-description &lt;SERVICE_DESCRIPTION&gt;</code> —
+        description of service</p>
+        <p>Default value: ``</p></li>
+    </ul>
+    <h4
+      id="name-version-manager-rs-service-reload"><code>NAME-version-manager-rs service reload</code></h4>
+    <p>Reload specified version</p>
+    <p><strong>Usage:</strong>
+      <code>NAME-version-manager-rs service reload [VERSION]</code></p>
+    <h6 id="arguments-4"><strong>Arguments:</strong></h6>
+    <ul>
+      <li><code>&lt;VERSION&gt;</code> — version to install, defaults to
+        global arg if provided otherwise env var
+      </li>
+    </ul>
+    <h4
+      id="name-version-manager-rs-service-start"><code>NAME-version-manager-rs service start</code></h4>
+    <p>Start specified version</p>
+    <p><strong>Usage:</strong>
+      <code>NAME-version-manager-rs service start [VERSION]</code></p>
+    <h6 id="arguments-5"><strong>Arguments:</strong></h6>
+    <ul>
+      <li><code>&lt;VERSION&gt;</code> — version to install, defaults to
+        global arg if provided otherwise env var
+      </li>
+    </ul>
+    <h4
+      id="name-version-manager-rs-service-stop"><code>NAME-version-manager-rs service stop</code></h4>
+    <p>Stop specified version</p>
+    <p><strong>Usage:</strong>
+      <code>NAME-version-manager-rs service stop [VERSION]</code></p>
+    <h6 id="arguments-6"><strong>Arguments:</strong></h6>
+    <ul>
+      <li><code>&lt;VERSION&gt;</code> — version to install, defaults to
+        global arg if provided otherwise env var
+      </li>
+    </ul>
+  </div>
+</div>
+
+<header class="marketing-banner">
+  <h2 class="banner-headline no-toc no-anchor">verman.toml specification</h2>
+</header>
+
+<div class="feature-section">
+  <div class="feature-header" id="verman-toml">
+    <div class="text-headline" style="text-transform: none"><code>verman.toml</code> example (syntax version
+      0.0.1-gamma)
+    </div>
+  </div>
+  <div class="feature" style="margin: 0 16px">
+    <p class="text-body">
+      <code>verman.toml</code> is an extension of the large-number of independent version-manager approach. Think of it analogously to docker-compose.
+    </p>
+
+    <p class="text-body">
+      What follows is an example that deploys the following:
+    </p>
+    <ul>
+      <li>Ruby REST API (behind a Ruby application server)</li>
+      <li>Python REST API (behind a Python application server)</li>
+      <li>Database (SQL compatible)</li>
+      <li>Reverse proxy (that routes to the Ruby and Python APIs and serves the static files)</li>
+    </ul>
+    <p class="text-body">
+      Place a single <code>verman.toml</code> file in your repo root or <code>./config</code> subdirectory. The
+      smallest example that does the above would be:</p>
+    <pre style="background: rgba(219, 219, 219, 0.3); padding: 0 20px;"><code>
+[[stack.database]]
+kind = "sql"
+
+[[stack_routing]]
+# Technically optional; could be inferred from `CNAME` file
+name = "my_name.verman.io"
+
+</code></pre>
+    <p class="text-body">&hellip; with more complex TOML&mdash;that still does the same&mdash;succeeding:</p>
+  </div>
+  <div class="feature-row">
+    <div class="feature-title">Prelude</div>
+
+    <pre style="background: rgba(219, 219, 219, 0.3); padding: 0 20px;"><code>
+name = "verman-schema-rs"
+version = "0.0.1"
+license = "(Apache-2.0 OR MIT)"
+homepage = "https://verman.io"
+repo = "https://github.com/verman-io"
+authors = [ "Samuel Marks <&#64;SamuelMarks>" ]
+
+# ^ these are inferred from package.json,
+# pyproject.toml, setup.py &etc. if not provided
+
+</code></pre>
+  </div>
+  <div class="feature-row">
+    <div class="feature-title">States / deploy semantics</div>
+    <pre style="background: rgba(219, 219, 219, 0.3); padding: 0 20px;"><code>
+enum State &#123;
+   /// [app/component] install or reinstall
+   /// [service] start or restart
+   "always",
+
+   /// [app/component] install if not installed
+   /// [service] reload if stopped otherwise start
+   "graceful",
+
+   /// [service] ping: if not started/installed:
+   /// - ping next service in array until end
+   /// - error if no services are pingable
+   /// - otherwise set env var | config for pingable service
+   "untouched",
+
+   /// [service] stop service (if service is running)
+   "stop",
+
+   /// [service] uninstall service (if installed)
+   /// [app/component] uninstall (if installed)
+   "remove",
+
+   /// [service] list which services would be started
+   /// [app/component] list what would be installed* (*without making any network requests)
+   "dry_run"
+&#125;
+
+</code></pre>
+  </div>
+  <div class="feature-row">
+    <div class="feature-title">States / deploy configuration</div>
+    <pre style="background: rgba(219, 219, 219, 0.3); padding: 0 20px;"><code>
+[stack_state.database]
+kind = "sql"
+install = "always"
+start = "always"
+
+[stack_state.application_server]
+install = "always"
+start = "always"
+
+[stack_state.routing]
+install = "always"
+start = "always"
+
+</code></pre>
+  </div>
+
+  <div class="feature-row">
+    <div class="feature-title">Stack configuration</div>
+    <pre style="background: rgba(219, 219, 219, 0.3); padding: 0 20px;"><code>
+[[stack.database]]
+kind = "sql"
+
+[[stack.application_server]]
+kind = "python"
+# other than `kind`; rest optional:
+versions = [ "~2.7", "~3.6", "~3.13" ]
+server_priority = [ "Waitress", "mod_wsgi", "uvicorn" ]
+
+[[stack.application_server]]
+kind = "ruby"
+
+</code></pre>
+  </div>
+
+  <div class="feature-row">
+    <div class="feature-title">Stack (routing)</div>
+    <pre style="background: rgba(219, 219, 219, 0.3); padding: 0 20px;"><code>
+[[stack_routing]]
+# `name` is optional if no `CNAME` file
+name = "my_name.verman.io"
+# rest optional:
+protocol = "https"
+certificate_vendor = "LetsEncrypt"
+provider = "nginx"  # AWS Route 53 | Apache | ...
+provider_version = "*"
+
+</code></pre>
+  </div>
+  <div class="feature-row">
+    <div class="feature-title">Component configuration</div>
+    <pre style="background: rgba(219, 219, 219, 0.3); padding: 0 20px;"><code>
+[[component]]
+src_uri = "file://python_api_folder/"
+dst_uri = "http://localhost:$&#123;PYTHON_API_PORT&#125;"
+
+[[component.constraints]]
+kind = "lang"
+required_variant = "python"
+
+[[component.constraints]]
+kind = "OS"
+
+[[component]]
+src_uri = "file://ruby_api_folder/"
+dst_uri = '''
+#!/jq
+if $OS == "windows" then "\\.\pipe\PipeName" else "unix:///var/run/my-socket.sock"'''
+
+[[component.constraints]]
+kind = "lang"
+required_variant = "ruby"
+required_version = ">3.1.2, <3.2"
+
+[[component.constraints]]
+kind = "OS"
+required_variant = """
+#!/jq
+$OS | in(&#123;\"linux\" || \"windows\"&#125;)"""
+
+[[component]]
+dst_uri = "my_app.verman.io"
+
+[[component.constraints]]
+kind = "routing"
+
+[component.env_vars]
+COMPONENT_NAME = "mount_component"
+
+[[component.mounts]]
+when = """
+#!/jq
+$OS == \"windows\""""
+uri = "file://win_nginx.conf"
+action = "nginx::make_site_available"
+
+[component.mounts.action_args]
+upsert = true
+
+[[component.mounts]]
+when = """
+#!/jq
+any(.; .component[].mounts[]?.action | startswith(\"nginx::\"))"""
+uri = "/api/py"
+src_uri = """
+#!/jq
+.component[] | select(.constraints | any([.kind, .required_variant] == [\"lang\", \"python\"])).dst_uri"""
+action = "mount::expose"
+
+[[component.mounts]]
+when = """
+#!/jq
+any(.; .component[].mounts[]?.action | startswith(\"nginx::\"))"""
+uri = "/api/ruby"
+src_uri = """
+#!/jq
+.component[] | select(.constraints | any([.kind, .required_variant] == [\"lang\", \"ruby\"])).dst_uri"""
+action = "mount::expose"
+
+[[component.mounts]]
+when = "BUILD_TIME > 2024"
+uri = "/api/demo"
+action = "mount::expose"
+
+[env_vars]
+DEBUG_ROOT = "true"
+      </code></pre>
+  </div>
+  <!-- TODO: Figure out package-manager prioritisation -->
+</div>
