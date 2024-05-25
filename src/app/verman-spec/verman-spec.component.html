@@ -327,12 +327,12 @@
   </div>
 </div>
 
-<header class="marketing-banner">
+<header class="marketing-banner" id="verman-toml">
   <h2 class="banner-headline no-toc no-anchor">verman.toml specification</h2>
 </header>
 
 <div class="feature-section">
-  <div class="feature-header" id="verman-toml">
+  <div class="feature-header">
     <div class="text-headline" style="text-transform: none"><code>verman.toml</code> example (syntax version
       0.0.1-gamma)
     </div>
@@ -379,6 +379,15 @@ authors = [ "Samuel Marks <&#64;SamuelMarks>" ]
 # ^ these are inferred from package.json,
 # pyproject.toml, setup.py &etc. if not provided
 
+[verman]
+# - `"#!/jq"` uses internal `jaq` dependency if feature `jaq` else errs
+# - `"#!/js"` uses internal JavaScript dependency based on deno if feature `js` enabled else errs
+# - `"#!/deno"` uses internal JavaScript dependency based on deno if feature `js` enabled else errs
+# - `"#!/wasm"` uses internal JavaScript dependency based on deno if feature `js` enabled else errs
+# - `"#!/lua"` uses internal Lua dependency if feature `lua` enabled else errs
+# - `"#!/python"` uses internal Python dependency if feature `python` enabled else errs
+# - `"#!/echo` simply outputs the lines after shebang
+shell = "#!/jq"
 </code></pre>
   </div>
   <div class="feature-row">
@@ -480,9 +489,7 @@ kind = "OS"
 
 [[component]]
 src_uri = "file://ruby_api_folder/"
-dst_uri = '''
-#!/jq
-if $OS == "windows" then "\\.\pipe\PipeName" else "unix:///var/run/my-socket.sock"'''
+dst_uri = 'if $OS == "windows" then "\\.\pipe\PipeName" else "unix:///var/run/my-socket.sock"'
 
 [[component.constraints]]
 kind = "lang"
@@ -491,9 +498,7 @@ required_version = ">3.1.2, <3.2"
 
 [[component.constraints]]
 kind = "OS"
-required_variant = """
-#!/jq
-$OS | in(&#123;\"linux\" || \"windows\"&#125;)"""
+required_variant = "$OS | in(&#123;\"linux\" || \"windows\"&#125;)"
 
 [[component]]
 dst_uri = "my_app.verman.io"
@@ -505,9 +510,7 @@ kind = "routing"
 COMPONENT_NAME = "mount_component"
 
 [[component.mounts]]
-when = """
-#!/jq
-$OS == \"windows\""""
+when = "$OS == \"windows\""
 uri = "file://win_nginx.conf"
 action = "nginx::make_site_available"
 
@@ -515,27 +518,19 @@ action = "nginx::make_site_available"
 upsert = true
 
 [[component.mounts]]
-when = """
-#!/jq
-any(.; .component[].mounts[]?.action | startswith(\"nginx::\"))"""
+when = "any(.; .component[].mounts[]?.action | startswith(\"nginx::\"))"
 uri = "/api/py"
-src_uri = """
-#!/jq
-.component[] | select(.constraints | any([.kind, .required_variant] == [\"lang\", \"python\"])).dst_uri"""
+src_uri = ".component[] | select(.constraints | any([.kind, .required_variant] == [\"lang\", \"python\"])).dst_uri"
 action = "mount::expose"
 
 [[component.mounts]]
-when = """
-#!/jq
-any(.; .component[].mounts[]?.action | startswith(\"nginx::\"))"""
+when = "any(.; .component[].mounts[]?.action | startswith(\"nginx::\"))"
 uri = "/api/ruby"
-src_uri = """
-#!/jq
-.component[] | select(.constraints | any([.kind, .required_variant] == [\"lang\", \"ruby\"])).dst_uri"""
+src_uri = ".component[] | select(.constraints | any([.kind, .required_variant] == [\"lang\", \"ruby\"])).dst_uri"
 action = "mount::expose"
 
 [[component.mounts]]
-when = "BUILD_TIME > 2024"
+when = "$BUILD_TIME > 2024"
 uri = "/api/demo"
 action = "mount::expose"
 
