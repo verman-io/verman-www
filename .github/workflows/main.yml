@@ -33,5 +33,5 @@ jobs:
           cname='verman.io'
           ng build --configuration production --base-href 'https://'"$cname"
           head -n3 README.md > 'dist/verman-www/README.md'
-          mv dist/verman-www/browser/ dist/verman-www
+          mv dist/verman-www/browser/* dist/verman-www
           npx angular-cli-ghpages --dir='dist/verman-www' --cname="$cname" --repo='https://'"$GITHUB_TOKEN"'@github.com/verman-io/verman.github.io' --branch='master' --message="$MSG" --name="$name" --email="$email" --no-silent
