@@ -20,7 +20,6 @@
     "@angular/platform-browser": "^18.0.0",
     "@angular/platform-browser-dynamic": "^18.0.0",
     "@angular/router": "^18.0.0",
-    "@mlc-ai/web-llm": "^0.2.14",
     "rxjs": "~7.8.0",
     "safevalues": "^0.4.3",
     "tslib": "^2.3.0",
