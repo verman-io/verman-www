@@ -176,7 +176,8 @@
         <li>Download version manager for <code>verman</code></li>
         <li><code>verman run latest -c .config/verman.toml</code></li>
         <li>See configuration file for stack details and various other points (like data locations and authentication
-          details)
+          details). Importantly, it is trivial from this format to mix-and-match layers&mdash;like database or
+          web-server&mdash;including replacing them with a cloud aaS offering.
         </li>
       </ol>
       <p class="text-body">
@@ -187,11 +188,15 @@
     <div class="feature-row">
       <div class="feature">
         <div class="feature-title">Performance critical environments</div>
-        <p class="text-body"></p>
+        <p class="text-body">Run code natively. No-holds-barred.</p>
       </div>
       <div class="feature">
         <div class="feature-title">Replicating bugs</div>
-        <p class="text-body"></p>
+        <p class="text-body">
+          Users reporting bugs specify their stack, including operating system, database, web server, and invocation
+          (e.g., HTTPS call) which causes the bug. Without cross-platform package managers for each part of the stack,
+          replicating bugs is a cumbersome process often delegated back to the reporter ("did that work?").
+        </p>
       </div>
     </div>
     <div class="feature-row">
@@ -201,16 +206,19 @@
       </div>
       <div class="feature">
         <div class="feature-title">Building aaS environments</div>
-        <p class="text-body"></p>
+        <p class="text-body">It is difficult to run things as-a-Service. With verman you can pick the version of each
+          part of the stack, experiment with different tracing/telemetry and logging tooling, and easily serve multiple
+          versions concurrently.</p>
       </div>
       <div class="feature">
         <div class="feature-title">Experimenting with equivalent stack components</div>
-        <p class="text-body"></p>
+        <p class="text-body">Benchmarking is a difficult task. Which web-server is the best? - How about for my
+          workload? - How about database? - Being able to easily test multiple parts of the stack and run stacks
+          concurrently makes comparing stacks trivial.</p>
       </div>
     </div>
     <hr>
   </div>
-
 
 
   <div class="feature-section">
